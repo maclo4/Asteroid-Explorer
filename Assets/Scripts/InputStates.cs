@@ -5,7 +5,7 @@ namespace Scripts
     public class InputStates
     {
         public InputStatesEnum left, right, up, down, jump, shoot;
-        public Vector2 aim = Vector2.right;
+        public Vector2 aim;
 
         public InputStates()
         {

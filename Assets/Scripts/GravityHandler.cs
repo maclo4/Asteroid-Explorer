@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class GravityHandler : MonoBehaviour
 {
-    [SerializeField] private Rigidbody2D playerRigidbody2D;
     [SerializeField] private float xGravity;
     [SerializeField] private float yGravity;
     [SerializeField] private float projectileGravityMultiplier;
@@ -13,8 +12,9 @@ public class GravityHandler : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            playerRigidbody2D.gravityScale = 0;
-            playerRigidbody2D.AddForce(new Vector2(xGravity, yGravity));
+            other.gameObject.TryGetComponent(out Rigidbody2D rigidbody2D);
+            rigidbody2D.gravityScale = 0;
+            rigidbody2D.AddForce(new Vector2(xGravity, yGravity));
         }
         if (other.CompareTag("Projectile"))
         {

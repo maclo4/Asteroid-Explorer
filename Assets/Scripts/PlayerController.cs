@@ -58,7 +58,7 @@ public class PlayerController : MonoBehaviour
         characterState = CharacterStates.Idle;
         inputStates = new InputStates();
         inputActions = new InputActions_AsteroidExplorer();
-        inputActions.@default.Left.started += LeftActionStarted;
+        /*inputActions.@default.Left.started += LeftActionStarted;
         inputActions.@default.Right.started += RightActionStarted;
         inputActions.@default.Up.started += UpActionStarted;
         inputActions.@default.Down.started += DownActionStarted;
@@ -70,82 +70,157 @@ public class PlayerController : MonoBehaviour
         inputActions.@default.Up.canceled += UpActionCanceled;
         inputActions.@default.Down.canceled += DownActionCanceled;
         inputActions.@default.Jump.canceled += JumpActionCanceled;
-        inputActions.@default.Shoot.canceled += ShootActionCanceled;
+        inputActions.@default.Shoot.canceled += ShootActionCanceled;*/
     }
 
-
-    public void LeftActionStarted(InputAction.CallbackContext context)
+    public void LeftActionCallback(InputAction.CallbackContext context)
     {
-        inputStates.left = Pressed;
-        leftBoosterAnimator.SetBool(LeftPressed, true);
+        if (context.started)
+        {
+            if(inputStates != null)
+                inputStates.left = Pressed;
+            leftBoosterAnimator.SetBool(LeftPressed, true);
+        }
+        else if (context.performed){}
+        else if (context.canceled)
+        {
+            if(inputStates != null)
+                inputStates.left = Raised;
+            leftBoosterAnimator.SetBool(LeftPressed, false);
+        }
+        
     }
-
-    public void LeftActionCanceled(InputAction.CallbackContext context)
+    
+    /*public void LeftActionCanceled(InputAction.CallbackContext context)
     {
         inputStates.left = Raised;
         leftBoosterAnimator.SetBool(LeftPressed, false);
-    }
+    }*/
 
-    public void RightActionStarted(InputAction.CallbackContext context)
+    public void RightActionCallback(InputAction.CallbackContext context)
     {
-        inputStates.right = Pressed;
-        rightBoosterAnimator.SetBool(RightPressed, true);
+        if (context.started)
+        {
+            if(inputStates != null)
+                inputStates.right = Pressed;
+            rightBoosterAnimator.SetBool(RightPressed, true);
+        }
+        else if (context.performed) {}
+        else if (context.canceled)
+        {
+            if(inputStates != null)
+                inputStates.right = Raised;
+            rightBoosterAnimator.SetBool(RightPressed, false);
+        }
     }
 
-    public void RightActionCanceled(InputAction.CallbackContext context)
+    /*public void RightActionCanceled(InputAction.CallbackContext context)
     {
         inputStates.right = Raised;
         rightBoosterAnimator.SetBool(RightPressed, false);
-    }
-    public void UpActionStarted(InputAction.CallbackContext context)
+    }*/
+    
+    public void UpActionCallback(InputAction.CallbackContext context)
     {
-        inputStates.up = Pressed;
-        upBoosterAnimator.SetBool(UpPressed, true);
+        if (context.started)
+        {
+            if(inputStates != null)
+                inputStates.up = Pressed;
+            upBoosterAnimator.SetBool(UpPressed, true);
+        }
+        else if (context.performed){}
+        else if (context.canceled)
+        {
+            if(inputStates != null)
+                inputStates.up = Raised;
+            upBoosterAnimator.SetBool(UpPressed, false);
+        }
+
     }
 
-    public void UpActionCanceled(InputAction.CallbackContext context)
+    /*public void UpActionCanceled(InputAction.CallbackContext context)
     {
         inputStates.up = Raised;
         upBoosterAnimator.SetBool(UpPressed, false);
-    }
-    public void DownActionStarted(InputAction.CallbackContext context)
+    }*/
+    public void DownActionCallback(InputAction.CallbackContext context)
     {
-        inputStates.down = Pressed;
-        downBoosterAnimator.SetBool(DownPressed, true);
+        if (context.started)
+        {
+            if(inputStates != null)
+                inputStates.down = Pressed;
+            downBoosterAnimator.SetBool(DownPressed, true);
+        }
+        else if (context.performed){}
+        else if (context.canceled)
+        {
+            if(inputStates != null)
+                inputStates.down = Raised;
+            downBoosterAnimator.SetBool(DownPressed, false);
+        }
+
     }
 
-    public void DownActionCanceled(InputAction.CallbackContext context)
+    /*public void DownActionCanceled(InputAction.CallbackContext context)
     {
         inputStates.down = Raised;
         downBoosterAnimator.SetBool(DownPressed, false);
-    }
+    }*/
     
-    public void JumpActionStarted(InputAction.CallbackContext context)
+    public void JumpActionCallback(InputAction.CallbackContext context)
     {
-        inputStates.jump = Started;
-    }
-
-    public void JumpActionCanceled(InputAction.CallbackContext context)
-    {
-        inputStates.jump = Raised;
-    }
-    
-    public void ShootActionStarted(InputAction.CallbackContext context)
-    {
-        var projectileInstance = Instantiate(projectile, transform);
-        var projectileRigidbody = projectileInstance.GetComponent<Rigidbody2D>();
-        var aimDirection = inputActions.@default.Aim.ReadValue<Vector2>();
-        if (aimDirection.x < .05 && aimDirection.x > -.05 ||
-            aimDirection.y < .05 && aimDirection.y > -.05)
+        if (context.started)
         {
+            if(inputStates != null)
+                inputStates.jump = Started;
+        }
+        else if (context.performed){}
+        else if (context.canceled)
+        {
+            if(inputStates != null)
+                inputStates.jump = Raised;
         }
 
-        inputStates.aim = aimDirection;
-        projectileRigidbody.AddForce(inputStates.aim * projectileSpeed);
     }
-    public void ShootActionCanceled(InputAction.CallbackContext context)
+
+    /*public void JumpActionCanceled(InputAction.CallbackContext context)
+    {
+        inputStates.jump = Raised;
+    }*/
+    
+    public void ShootActionCallback(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            if (inputStates == null) return;
+            
+            var projectileInstance = Instantiate(projectile, transform);
+            var projectileRigidbody = projectileInstance.GetComponent<Rigidbody2D>();
+            //var aimDirection = inputActions.@default.Aim.ReadValue<Vector2>();
+            var aimDirection = inputStates.aim;
+            if (aimDirection.x < .05 && aimDirection.x > -.05 ||
+                aimDirection.y < .05 && aimDirection.y > -.05)
+            {
+            }
+
+            //inputStates.aim = aimDirection;
+            projectileRigidbody.AddForce(inputStates.aim * projectileSpeed);
+        }
+        else if (context.performed){}
+        else if (context.canceled)
+        {
+            
+        }
+    }
+    /*public void ShootActionCanceled(InputAction.CallbackContext context)
     {
 
+    }*/
+
+    public void AimActionCallback(InputAction.CallbackContext context)
+    {
+        if(inputStates != null)
+            inputStates.aim = inputActions.@default.Aim.ReadValue<Vector2>();
     }
     
     // Start is called before the first frame update
@@ -162,8 +237,6 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        inputStates.aim = inputActions.@default.Aim.ReadValue<Vector2>();
-        
         switch (characterState)
         {
             case CharacterStates.Idle:
