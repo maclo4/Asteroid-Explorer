@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 1400534621727392991}
   - component: {fileID: 1537009754937978004}
   - component: {fileID: 7764342013095262450}
-  - component: {fileID: 7764342013095262449}
   - component: {fileID: 3840411607092986338}
   m_Layer: 0
   m_Name: Projectile
@@ -115,7 +114,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 461454b1697b2ff44ab8ca98f86aa992, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectileSpeed: 2000
 --- !u!50 &7764342013095262450
 Rigidbody2D:
   serializedVersion: 4
@@ -137,68 +135,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
---- !u!114 &7764342013095262449
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4938318843681115389}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 6f7c75cee121a814e93a521cb6950fde, type: 3}
-  m_NotificationBehavior: 2
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents:
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 722b2d15-76bf-4463-b266-25dff6584fbb
-    m_ActionName: default/Right[/Keyboard/rightArrow,/XInputControllerWindows/leftStick/right,/XInputControllerWindows/dpad/right]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: e3c30a52-b811-44a9-8641-78696b0b5ea4
-    m_ActionName: default/Left[/Keyboard/leftArrow,/XInputControllerWindows/leftStick/left,/XInputControllerWindows/dpad/left]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: f1580859-b7eb-4cfc-a4af-ca3e7ce24db7
-    m_ActionName: default/Jump[/Keyboard/space]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 7cee39a1-cca9-4dab-93b6-09ef3b3b7eb5
-    m_ActionName: default/Up[/Keyboard/upArrow,/XInputControllerWindows/leftStick/up,/XInputControllerWindows/dpad/up]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 24ae74b7-d74b-4c4b-9079-5f26fa2d6b94
-    m_ActionName: default/Down[/Keyboard/downArrow,/XInputControllerWindows/leftStick/down,/XInputControllerWindows/dpad/down]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 7f5afa35-a4ac-4f3d-bfd9-81d6dd7e83dc
-    m_ActionName: default/Interact[/XInputControllerWindows/buttonWest]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 08851a1a-87fd-4699-8d9e-a041ca113767
-    m_ActionName: default/Aim[/XInputControllerWindows/rightStick]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 701a6945-4d37-468e-90c7-9a7217594e64
-    m_ActionName: default/Shoot[/XInputControllerWindows/rightShoulder]
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: fc52de77-4071-44b5-ba10-69194755cd26
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!95 &3840411607092986338
 Animator:
   serializedVersion: 3

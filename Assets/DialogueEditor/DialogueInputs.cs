@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using DialogueEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -26,7 +23,7 @@ public class DialogueInputs : MonoBehaviour
 
     private void Start()
     {
-        inputActions.@default.Interact.started += InteractActionStarted;
+        inputActions.SpaceShipActionMap.Interact.started += InteractActionStarted;
     }
 
     private static void InteractActionStarted(InputAction.CallbackContext obj)

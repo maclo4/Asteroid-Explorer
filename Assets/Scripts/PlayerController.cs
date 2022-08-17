@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Animator downBoosterAnimator;
     [SerializeField] private Animator leftBoosterAnimator;
     [SerializeField] private Animator rightBoosterAnimator;
+    [SerializeField] private Animator spaceShipAnimator;
     private SpriteRenderer spriteRenderer;
     private Rigidbody2D rigidbody2d;
     private BoxCollider2D boxCollider2D;
@@ -33,6 +34,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int minimumJumpFrames;
     public float projectileSpeed;
     private int jumpFloatFrameCounter = 0;
+    [SerializeField] private int totalHealth;
     
     [SerializeField] private int boosterStrength;
     [SerializeField] private int dashStrength;
@@ -41,6 +43,7 @@ public class PlayerController : MonoBehaviour
     private static readonly int RightPressed = Animator.StringToHash("rightPressed");
     private static readonly int UpPressed = Animator.StringToHash("upPressed");
     private static readonly int DownPressed = Animator.StringToHash("downPressed");
+    private static readonly int Die1 = Animator.StringToHash("Die");
 
 
     private void OnEnable()
@@ -58,19 +61,16 @@ public class PlayerController : MonoBehaviour
         characterState = CharacterStates.Idle;
         inputStates = new InputStates();
         inputActions = new InputActions_AsteroidExplorer();
-        /*inputActions.@default.Left.started += LeftActionStarted;
-        inputActions.@default.Right.started += RightActionStarted;
-        inputActions.@default.Up.started += UpActionStarted;
-        inputActions.@default.Down.started += DownActionStarted;
-        inputActions.@default.Jump.started += JumpActionStarted;
-        inputActions.@default.Shoot.started += ShootActionStarted;
-        
-        inputActions.@default.Left.canceled += LeftActionCanceled;
-        inputActions.@default.Right.canceled += RightActionCanceled;
-        inputActions.@default.Up.canceled += UpActionCanceled;
-        inputActions.@default.Down.canceled += DownActionCanceled;
-        inputActions.@default.Jump.canceled += JumpActionCanceled;
-        inputActions.@default.Shoot.canceled += ShootActionCanceled;*/
+        inputActions.SpaceShipActionMap.Aim.performed += AimActionCallback;
+    }
+
+    private void AimActionCallback(InputAction.CallbackContext context)
+    {
+        inputStates.aim = context.ReadValue<Vector2>();
+        if (inputStates.aim.x > .5 || inputStates.aim.y > .5 || inputStates.aim.x < -.5 || inputStates.aim.y < -.5)
+        {
+            inputStates.defaultAim = inputStates.aim;
+        }
     }
 
     public void LeftActionCallback(InputAction.CallbackContext context)
@@ -90,12 +90,6 @@ public class PlayerController : MonoBehaviour
         }
         
     }
-    
-    /*public void LeftActionCanceled(InputAction.CallbackContext context)
-    {
-        inputStates.left = Raised;
-        leftBoosterAnimator.SetBool(LeftPressed, false);
-    }*/
 
     public void RightActionCallback(InputAction.CallbackContext context)
     {
@@ -113,12 +107,6 @@ public class PlayerController : MonoBehaviour
             rightBoosterAnimator.SetBool(RightPressed, false);
         }
     }
-
-    /*public void RightActionCanceled(InputAction.CallbackContext context)
-    {
-        inputStates.right = Raised;
-        rightBoosterAnimator.SetBool(RightPressed, false);
-    }*/
     
     public void UpActionCallback(InputAction.CallbackContext context)
     {
@@ -137,12 +125,6 @@ public class PlayerController : MonoBehaviour
         }
 
     }
-
-    /*public void UpActionCanceled(InputAction.CallbackContext context)
-    {
-        inputStates.up = Raised;
-        upBoosterAnimator.SetBool(UpPressed, false);
-    }*/
     public void DownActionCallback(InputAction.CallbackContext context)
     {
         if (context.started)
@@ -160,51 +142,40 @@ public class PlayerController : MonoBehaviour
         }
 
     }
-
-    /*public void DownActionCanceled(InputAction.CallbackContext context)
-    {
-        inputStates.down = Raised;
-        downBoosterAnimator.SetBool(DownPressed, false);
-    }*/
     
     public void JumpActionCallback(InputAction.CallbackContext context)
     {
         if (context.started)
         {
             if(inputStates != null)
-                inputStates.jump = Started;
+                inputStates.boost = Started;
         }
         else if (context.performed){}
         else if (context.canceled)
         {
             if(inputStates != null)
-                inputStates.jump = Raised;
+                inputStates.boost = Raised;
         }
-
     }
-
-    /*public void JumpActionCanceled(InputAction.CallbackContext context)
-    {
-        inputStates.jump = Raised;
-    }*/
     
     public void ShootActionCallback(InputAction.CallbackContext context)
     {
         if (context.started)
         {
-            if (inputStates == null) return;
-            
-            var projectileInstance = Instantiate(projectile, transform);
-            var projectileRigidbody = projectileInstance.GetComponent<Rigidbody2D>();
-            //var aimDirection = inputActions.@default.Aim.ReadValue<Vector2>();
-            var aimDirection = inputStates.aim;
-            if (aimDirection.x < .05 && aimDirection.x > -.05 ||
-                aimDirection.y < .05 && aimDirection.y > -.05)
+            if (inputStates != null)
             {
-            }
+                var projectileInstance = Instantiate(projectile, transform);
+                var projectileRigidbody = projectileInstance.GetComponent<Rigidbody2D>();
+                var aimDirection = inputStates.aim;
+                if (aimDirection.x < .05 && aimDirection.x > -.05 ||
+                    aimDirection.y < .05 && aimDirection.y > -.05)
+                {
+                    projectileRigidbody.AddForce(inputStates.defaultAim.normalized * projectileSpeed);
+                    return;
+                }
 
-            //inputStates.aim = aimDirection;
-            projectileRigidbody.AddForce(inputStates.aim * projectileSpeed);
+                projectileRigidbody.AddForce(inputStates.aim.normalized * projectileSpeed);
+            }
         }
         else if (context.performed){}
         else if (context.canceled)
@@ -212,17 +183,7 @@ public class PlayerController : MonoBehaviour
             
         }
     }
-    /*public void ShootActionCanceled(InputAction.CallbackContext context)
-    {
 
-    }*/
-
-    public void AimActionCallback(InputAction.CallbackContext context)
-    {
-        if(inputStates != null)
-            inputStates.aim = inputActions.@default.Aim.ReadValue<Vector2>();
-    }
-    
     // Start is called before the first frame update
     private void Start()
     {
@@ -265,34 +226,47 @@ public class PlayerController : MonoBehaviour
                 throw new ArgumentOutOfRangeException();
         }
 
-        if (inputStates.jump == Started)
+        if (inputStates.boost == Started)
         {
-            inputStates.jump = Pressed;
+            inputStates.boost = Pressed;
         }
     }
 
+    public void TakeDamage(int damage)
+    {
+        totalHealth -= damage;
+        if (totalHealth <= 0)
+        {
+            spaceShipAnimator.SetBool(Die1, true);
+        }
+    }
+
+    public void Die()
+    {
+        Destroy(gameObject);
+    }
 
     private void SelectActionFromIdle()
     {
-        if (Jump())
+        /*if (Boost())
         {
             return;
-        }
+        }*/
         if (Move())        
         {
         }
     }
     private void SelectActionFromMove()
     {
-        if (Jump())
+        /*if (Boost())
         {
             return;
-        }
+        }*/
         if (Move())
         {
             return;
         }
-        characterState = CharacterStates.Idle;
+        //characterState = CharacterStates.Idle;
     }
     
     private void SelectActionFromJump()
@@ -352,10 +326,16 @@ public class PlayerController : MonoBehaviour
         
         return isMoving;
     }
-    private bool Jump()
+    private bool Boost()
     {
-        if (inputStates.jump != Started || characterState == CharacterStates.Jump) return false;
-        
+        if (inputStates.boost != Started) return false;
+
+        /*if (inputStates.left == Pressed || inputStates.right == Pressed ||
+            inputStates.up == Pressed || inputStates.down == Pressed)
+        {
+            rigidbody2d.velocity = Vector2.zero;
+        }*/
+
         if (inputStates.left == Pressed)
         {
             characterState = CharacterStates.MoveLeft;
@@ -436,7 +416,7 @@ public class PlayerController : MonoBehaviour
     {
         if(jumpFloatFrameCounter < jumpFloatMaxFrames)
         {
-            switch (inputStates.jump)
+            switch (inputStates.boost)
             {
                 case Pressed:
                     rigidbody2d.velocity += Vector2.up * airfloatMultiplier;

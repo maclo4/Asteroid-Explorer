@@ -176,6 +176,7 @@ MonoBehaviour:
   downBoosterAnimator: {fileID: 3715024314722006921}
   leftBoosterAnimator: {fileID: 3715024313804174962}
   rightBoosterAnimator: {fileID: 3715024314855824924}
+  spaceShipAnimator: {fileID: 3715024313127936580}
   platformLayerMask:
     serializedVersion: 2
     m_Bits: 8
@@ -201,8 +202,9 @@ MonoBehaviour:
   airdriftSlowdown: 1
   minimumJumpFrames: 5
   projectileSpeed: 1500
+  totalHealth: 1
   boosterStrength: 25
-  dashStrength: 250
+  dashStrength: 500
   maxFloatSpeed: 20
 --- !u!114 &3715024313127936576
 MonoBehaviour:
@@ -314,19 +316,7 @@ MonoBehaviour:
     m_ActionId: 7f5afa35-a4ac-4f3d-bfd9-81d6dd7e83dc
     m_ActionName: default/Interact[/Keyboard/a]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3715024313127936579}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: AimActionCallback
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 08851a1a-87fd-4699-8d9e-a041ca113767
     m_ActionName: default/Aim[/XInputControllerWindows/rightStick]
   - m_PersistentCalls:
@@ -347,7 +337,7 @@ MonoBehaviour:
     m_ActionName: default/Shoot[/XInputControllerWindows/rightShoulder]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: default
+  m_DefaultActionMap: SpaceShipActionMap
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!58 &3715024313127936577

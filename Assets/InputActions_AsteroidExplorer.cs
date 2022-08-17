@@ -15,7 +15,7 @@ public class @InputActions_AsteroidExplorer : IInputActionCollection, IDisposabl
     ""name"": ""InputActions_AsteroidExplorer"",
     ""maps"": [
         {
-            ""name"": ""default"",
+            ""name"": ""SpaceShipActionMap"",
             ""id"": ""fc52de77-4071-44b5-ba10-69194755cd26"",
             ""actions"": [
                 {
@@ -68,9 +68,9 @@ public class @InputActions_AsteroidExplorer : IInputActionCollection, IDisposabl
                 },
                 {
                     ""name"": ""Aim"",
-                    ""type"": ""Value"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""08851a1a-87fd-4699-8d9e-a041ca113767"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
                 },
@@ -108,6 +108,17 @@ public class @InputActions_AsteroidExplorer : IInputActionCollection, IDisposabl
                 },
                 {
                     ""name"": """",
+                    ""id"": ""7031f624-8210-4fd0-a498-aa9ea37ddf4a"",
+                    ""path"": ""<Gamepad>/leftStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Right"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""4a4b4d08-32e7-4711-8b74-31654cc876eb"",
                     ""path"": ""<Gamepad>/dpad/left"",
                     ""interactions"": """",
@@ -121,6 +132,17 @@ public class @InputActions_AsteroidExplorer : IInputActionCollection, IDisposabl
                     ""name"": """",
                     ""id"": ""a5fc1ea8-4cef-4624-aab1-246865d794d7"",
                     ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Left"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""3419ca1b-964c-48c8-b443-395a7e85e918"",
+                    ""path"": ""<Gamepad>/leftStick/left"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -163,6 +185,17 @@ public class @InputActions_AsteroidExplorer : IInputActionCollection, IDisposabl
                 },
                 {
                     ""name"": """",
+                    ""id"": ""dfe79056-da69-42cf-967d-27d8ec58ec88"",
+                    ""path"": ""<Gamepad>/leftStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Up"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""3edcad0f-81d9-4cf8-a641-cda7979836f1"",
                     ""path"": ""<Gamepad>/dpad/down"",
                     ""interactions"": """",
@@ -176,6 +209,17 @@ public class @InputActions_AsteroidExplorer : IInputActionCollection, IDisposabl
                     ""name"": """",
                     ""id"": ""ee4cd815-d045-414f-bdfa-41221fd593a7"",
                     ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Down"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""eeb14446-b835-473a-89fb-01b02b719d5f"",
+                    ""path"": ""<Gamepad>/leftStick/down"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -218,30 +262,8 @@ public class @InputActions_AsteroidExplorer : IInputActionCollection, IDisposabl
                 },
                 {
                     ""name"": """",
-                    ""id"": ""b9a68682-2c22-4105-87de-a627a1504ce6"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Aim"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""66a5a834-a8fb-48aa-b584-f4866d1ccd42"",
                     ""path"": ""<Gamepad>/rightShoulder"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Shoot"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""73e5361e-65ee-4c4b-b815-11b25d6d0936"",
-                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -254,16 +276,16 @@ public class @InputActions_AsteroidExplorer : IInputActionCollection, IDisposabl
     ],
     ""controlSchemes"": []
 }");
-        // default
-        m_default = asset.FindActionMap("default", throwIfNotFound: true);
-        m_default_Right = m_default.FindAction("Right", throwIfNotFound: true);
-        m_default_Left = m_default.FindAction("Left", throwIfNotFound: true);
-        m_default_Jump = m_default.FindAction("Jump", throwIfNotFound: true);
-        m_default_Up = m_default.FindAction("Up", throwIfNotFound: true);
-        m_default_Down = m_default.FindAction("Down", throwIfNotFound: true);
-        m_default_Interact = m_default.FindAction("Interact", throwIfNotFound: true);
-        m_default_Aim = m_default.FindAction("Aim", throwIfNotFound: true);
-        m_default_Shoot = m_default.FindAction("Shoot", throwIfNotFound: true);
+        // SpaceShipActionMap
+        m_SpaceShipActionMap = asset.FindActionMap("SpaceShipActionMap", throwIfNotFound: true);
+        m_SpaceShipActionMap_Right = m_SpaceShipActionMap.FindAction("Right", throwIfNotFound: true);
+        m_SpaceShipActionMap_Left = m_SpaceShipActionMap.FindAction("Left", throwIfNotFound: true);
+        m_SpaceShipActionMap_Jump = m_SpaceShipActionMap.FindAction("Jump", throwIfNotFound: true);
+        m_SpaceShipActionMap_Up = m_SpaceShipActionMap.FindAction("Up", throwIfNotFound: true);
+        m_SpaceShipActionMap_Down = m_SpaceShipActionMap.FindAction("Down", throwIfNotFound: true);
+        m_SpaceShipActionMap_Interact = m_SpaceShipActionMap.FindAction("Interact", throwIfNotFound: true);
+        m_SpaceShipActionMap_Aim = m_SpaceShipActionMap.FindAction("Aim", throwIfNotFound: true);
+        m_SpaceShipActionMap_Shoot = m_SpaceShipActionMap.FindAction("Shoot", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -310,64 +332,64 @@ public class @InputActions_AsteroidExplorer : IInputActionCollection, IDisposabl
         asset.Disable();
     }
 
-    // default
-    private readonly InputActionMap m_default;
-    private IDefaultActions m_DefaultActionsCallbackInterface;
-    private readonly InputAction m_default_Right;
-    private readonly InputAction m_default_Left;
-    private readonly InputAction m_default_Jump;
-    private readonly InputAction m_default_Up;
-    private readonly InputAction m_default_Down;
-    private readonly InputAction m_default_Interact;
-    private readonly InputAction m_default_Aim;
-    private readonly InputAction m_default_Shoot;
-    public struct DefaultActions
+    // SpaceShipActionMap
+    private readonly InputActionMap m_SpaceShipActionMap;
+    private ISpaceShipActionMapActions m_SpaceShipActionMapActionsCallbackInterface;
+    private readonly InputAction m_SpaceShipActionMap_Right;
+    private readonly InputAction m_SpaceShipActionMap_Left;
+    private readonly InputAction m_SpaceShipActionMap_Jump;
+    private readonly InputAction m_SpaceShipActionMap_Up;
+    private readonly InputAction m_SpaceShipActionMap_Down;
+    private readonly InputAction m_SpaceShipActionMap_Interact;
+    private readonly InputAction m_SpaceShipActionMap_Aim;
+    private readonly InputAction m_SpaceShipActionMap_Shoot;
+    public struct SpaceShipActionMapActions
     {
         private @InputActions_AsteroidExplorer m_Wrapper;
-        public DefaultActions(@InputActions_AsteroidExplorer wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Right => m_Wrapper.m_default_Right;
-        public InputAction @Left => m_Wrapper.m_default_Left;
-        public InputAction @Jump => m_Wrapper.m_default_Jump;
-        public InputAction @Up => m_Wrapper.m_default_Up;
-        public InputAction @Down => m_Wrapper.m_default_Down;
-        public InputAction @Interact => m_Wrapper.m_default_Interact;
-        public InputAction @Aim => m_Wrapper.m_default_Aim;
-        public InputAction @Shoot => m_Wrapper.m_default_Shoot;
-        public InputActionMap Get() { return m_Wrapper.m_default; }
+        public SpaceShipActionMapActions(@InputActions_AsteroidExplorer wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Right => m_Wrapper.m_SpaceShipActionMap_Right;
+        public InputAction @Left => m_Wrapper.m_SpaceShipActionMap_Left;
+        public InputAction @Jump => m_Wrapper.m_SpaceShipActionMap_Jump;
+        public InputAction @Up => m_Wrapper.m_SpaceShipActionMap_Up;
+        public InputAction @Down => m_Wrapper.m_SpaceShipActionMap_Down;
+        public InputAction @Interact => m_Wrapper.m_SpaceShipActionMap_Interact;
+        public InputAction @Aim => m_Wrapper.m_SpaceShipActionMap_Aim;
+        public InputAction @Shoot => m_Wrapper.m_SpaceShipActionMap_Shoot;
+        public InputActionMap Get() { return m_Wrapper.m_SpaceShipActionMap; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(DefaultActions set) { return set.Get(); }
-        public void SetCallbacks(IDefaultActions instance)
+        public static implicit operator InputActionMap(SpaceShipActionMapActions set) { return set.Get(); }
+        public void SetCallbacks(ISpaceShipActionMapActions instance)
         {
-            if (m_Wrapper.m_DefaultActionsCallbackInterface != null)
+            if (m_Wrapper.m_SpaceShipActionMapActionsCallbackInterface != null)
             {
-                @Right.started -= m_Wrapper.m_DefaultActionsCallbackInterface.OnRight;
-                @Right.performed -= m_Wrapper.m_DefaultActionsCallbackInterface.OnRight;
-                @Right.canceled -= m_Wrapper.m_DefaultActionsCallbackInterface.OnRight;
-                @Left.started -= m_Wrapper.m_DefaultActionsCallbackInterface.OnLeft;
-                @Left.performed -= m_Wrapper.m_DefaultActionsCallbackInterface.OnLeft;
-                @Left.canceled -= m_Wrapper.m_DefaultActionsCallbackInterface.OnLeft;
-                @Jump.started -= m_Wrapper.m_DefaultActionsCallbackInterface.OnJump;
-                @Jump.performed -= m_Wrapper.m_DefaultActionsCallbackInterface.OnJump;
-                @Jump.canceled -= m_Wrapper.m_DefaultActionsCallbackInterface.OnJump;
-                @Up.started -= m_Wrapper.m_DefaultActionsCallbackInterface.OnUp;
-                @Up.performed -= m_Wrapper.m_DefaultActionsCallbackInterface.OnUp;
-                @Up.canceled -= m_Wrapper.m_DefaultActionsCallbackInterface.OnUp;
-                @Down.started -= m_Wrapper.m_DefaultActionsCallbackInterface.OnDown;
-                @Down.performed -= m_Wrapper.m_DefaultActionsCallbackInterface.OnDown;
-                @Down.canceled -= m_Wrapper.m_DefaultActionsCallbackInterface.OnDown;
-                @Interact.started -= m_Wrapper.m_DefaultActionsCallbackInterface.OnInteract;
-                @Interact.performed -= m_Wrapper.m_DefaultActionsCallbackInterface.OnInteract;
-                @Interact.canceled -= m_Wrapper.m_DefaultActionsCallbackInterface.OnInteract;
-                @Aim.started -= m_Wrapper.m_DefaultActionsCallbackInterface.OnAim;
-                @Aim.performed -= m_Wrapper.m_DefaultActionsCallbackInterface.OnAim;
-                @Aim.canceled -= m_Wrapper.m_DefaultActionsCallbackInterface.OnAim;
-                @Shoot.started -= m_Wrapper.m_DefaultActionsCallbackInterface.OnShoot;
-                @Shoot.performed -= m_Wrapper.m_DefaultActionsCallbackInterface.OnShoot;
-                @Shoot.canceled -= m_Wrapper.m_DefaultActionsCallbackInterface.OnShoot;
+                @Right.started -= m_Wrapper.m_SpaceShipActionMapActionsCallbackInterface.OnRight;
+                @Right.performed -= m_Wrapper.m_SpaceShipActionMapActionsCallbackInterface.OnRight;
+                @Right.canceled -= m_Wrapper.m_SpaceShipActionMapActionsCallbackInterface.OnRight;
+                @Left.started -= m_Wrapper.m_SpaceShipActionMapActionsCallbackInterface.OnLeft;
+                @Left.performed -= m_Wrapper.m_SpaceShipActionMapActionsCallbackInterface.OnLeft;
+                @Left.canceled -= m_Wrapper.m_SpaceShipActionMapActionsCallbackInterface.OnLeft;
+                @Jump.started -= m_Wrapper.m_SpaceShipActionMapActionsCallbackInterface.OnJump;
+                @Jump.performed -= m_Wrapper.m_SpaceShipActionMapActionsCallbackInterface.OnJump;
+                @Jump.canceled -= m_Wrapper.m_SpaceShipActionMapActionsCallbackInterface.OnJump;
+                @Up.started -= m_Wrapper.m_SpaceShipActionMapActionsCallbackInterface.OnUp;
+                @Up.performed -= m_Wrapper.m_SpaceShipActionMapActionsCallbackInterface.OnUp;
+                @Up.canceled -= m_Wrapper.m_SpaceShipActionMapActionsCallbackInterface.OnUp;
+                @Down.started -= m_Wrapper.m_SpaceShipActionMapActionsCallbackInterface.OnDown;
+                @Down.performed -= m_Wrapper.m_SpaceShipActionMapActionsCallbackInterface.OnDown;
+                @Down.canceled -= m_Wrapper.m_SpaceShipActionMapActionsCallbackInterface.OnDown;
+                @Interact.started -= m_Wrapper.m_SpaceShipActionMapActionsCallbackInterface.OnInteract;
+                @Interact.performed -= m_Wrapper.m_SpaceShipActionMapActionsCallbackInterface.OnInteract;
+                @Interact.canceled -= m_Wrapper.m_SpaceShipActionMapActionsCallbackInterface.OnInteract;
+                @Aim.started -= m_Wrapper.m_SpaceShipActionMapActionsCallbackInterface.OnAim;
+                @Aim.performed -= m_Wrapper.m_SpaceShipActionMapActionsCallbackInterface.OnAim;
+                @Aim.canceled -= m_Wrapper.m_SpaceShipActionMapActionsCallbackInterface.OnAim;
+                @Shoot.started -= m_Wrapper.m_SpaceShipActionMapActionsCallbackInterface.OnShoot;
+                @Shoot.performed -= m_Wrapper.m_SpaceShipActionMapActionsCallbackInterface.OnShoot;
+                @Shoot.canceled -= m_Wrapper.m_SpaceShipActionMapActionsCallbackInterface.OnShoot;
             }
-            m_Wrapper.m_DefaultActionsCallbackInterface = instance;
+            m_Wrapper.m_SpaceShipActionMapActionsCallbackInterface = instance;
             if (instance != null)
             {
                 @Right.started += instance.OnRight;
@@ -397,8 +419,8 @@ public class @InputActions_AsteroidExplorer : IInputActionCollection, IDisposabl
             }
         }
     }
-    public DefaultActions @default => new DefaultActions(this);
-    public interface IDefaultActions
+    public SpaceShipActionMapActions @SpaceShipActionMap => new SpaceShipActionMapActions(this);
+    public interface ISpaceShipActionMapActions
     {
         void OnRight(InputAction.CallbackContext context);
         void OnLeft(InputAction.CallbackContext context);
