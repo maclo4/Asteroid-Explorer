@@ -1,6 +1,6 @@
 # Asteroid-Explorer
 
-Battle your friends with 2-4 players using spaceships in zero gravity arenas.
+Battle your friends with 2-4 players using spaceships in gravity bending arenas.
 
 
 ## Videos
