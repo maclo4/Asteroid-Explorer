@@ -2,6 +2,7 @@ using System;
 using Scripts;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
 using static Scripts.InputStatesEnum;
 
     
@@ -17,7 +18,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rigidbody2d;
     private BoxCollider2D boxCollider2D;
     [SerializeField] private LayerMask	platformLayerMask;
-    
+
     private InputActions_AsteroidExplorer inputActions;
     private CharacterStates characterState;
     private InputStates inputStates;
@@ -79,14 +80,16 @@ public class PlayerController : MonoBehaviour
         {
             if(inputStates != null)
                 inputStates.left = Pressed;
-            leftBoosterAnimator.SetBool(LeftPressed, true);
+            if (leftBoosterAnimator != null && leftBoosterAnimator.isActiveAndEnabled)
+                leftBoosterAnimator.SetBool(LeftPressed, true);
         }
         else if (context.performed){}
         else if (context.canceled)
         {
             if(inputStates != null)
                 inputStates.left = Raised;
-            leftBoosterAnimator.SetBool(LeftPressed, false);
+            if (leftBoosterAnimator != null && leftBoosterAnimator.isActiveAndEnabled)
+                leftBoosterAnimator.SetBool(LeftPressed, false);
         }
         
     }
@@ -97,14 +100,16 @@ public class PlayerController : MonoBehaviour
         {
             if(inputStates != null)
                 inputStates.right = Pressed;
-            rightBoosterAnimator.SetBool(RightPressed, true);
+            if (rightBoosterAnimator != null && rightBoosterAnimator.isActiveAndEnabled)
+                rightBoosterAnimator.SetBool(RightPressed, true);
         }
         else if (context.performed) {}
         else if (context.canceled)
         {
             if(inputStates != null)
                 inputStates.right = Raised;
-            rightBoosterAnimator.SetBool(RightPressed, false);
+            if (rightBoosterAnimator != null && rightBoosterAnimator.isActiveAndEnabled)
+                rightBoosterAnimator.SetBool(RightPressed, false);
         }
     }
     
@@ -114,14 +119,16 @@ public class PlayerController : MonoBehaviour
         {
             if(inputStates != null)
                 inputStates.up = Pressed;
-            upBoosterAnimator.SetBool(UpPressed, true);
+            if (upBoosterAnimator != null && upBoosterAnimator.isActiveAndEnabled)
+                upBoosterAnimator.SetBool(UpPressed, true);
         }
         else if (context.performed){}
         else if (context.canceled)
         {
             if(inputStates != null)
                 inputStates.up = Raised;
-            upBoosterAnimator.SetBool(UpPressed, false);
+            if (upBoosterAnimator != null && upBoosterAnimator.isActiveAndEnabled)
+                upBoosterAnimator.SetBool(UpPressed, false);
         }
 
     }
@@ -131,14 +138,16 @@ public class PlayerController : MonoBehaviour
         {
             if(inputStates != null)
                 inputStates.down = Pressed;
-            downBoosterAnimator.SetBool(DownPressed, true);
+            if (downBoosterAnimator != null && downBoosterAnimator.isActiveAndEnabled)
+                downBoosterAnimator.SetBool(DownPressed, true);
         }
         else if (context.performed){}
         else if (context.canceled)
         {
             if(inputStates != null)
                 inputStates.down = Raised;
-            downBoosterAnimator.SetBool(DownPressed, false);
+            if (downBoosterAnimator != null && downBoosterAnimator.isActiveAndEnabled)
+                downBoosterAnimator.SetBool(DownPressed, false);
         }
 
     }
@@ -221,7 +230,8 @@ public class PlayerController : MonoBehaviour
                 //SetJumpAnimation();
                 SelectActionFromJump();
                 break;
-
+            case CharacterStates.Dead:
+                break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
@@ -237,6 +247,9 @@ public class PlayerController : MonoBehaviour
         totalHealth -= damage;
         if (totalHealth <= 0)
         {
+            rigidbody2d.velocity = Vector2.zero;
+            characterState = CharacterStates.Dead;
+            inputActions.Disable();
             spaceShipAnimator.SetBool(Die1, true);
         }
     }
@@ -245,6 +258,7 @@ public class PlayerController : MonoBehaviour
     {
         Destroy(gameObject);
     }
+
 
     private void SelectActionFromIdle()
     {

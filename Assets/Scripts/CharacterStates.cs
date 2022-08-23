@@ -9,6 +9,7 @@ namespace Scripts
         MoveUp,
         MoveDown,
         Dash,
-        Jump
+        Jump,
+        Dead
     }
 }
