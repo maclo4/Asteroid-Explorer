@@ -14,10 +14,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Animator leftBoosterAnimator;
     [SerializeField] private Animator rightBoosterAnimator;
     [SerializeField] private Animator spaceShipAnimator;
-    private SpriteRenderer spriteRenderer;
     private Rigidbody2D rigidbody2d;
-    private BoxCollider2D boxCollider2D;
-    [SerializeField] private LayerMask	platformLayerMask;
 
     private InputActions_AsteroidExplorer inputActions;
     private CharacterStates characterState;
@@ -28,23 +25,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private ContactFilter2D ContactFilter;
     private bool IsGrounded => rigidbody2d.IsTouching(ContactFilter);
     
-    [SerializeField] private float maxAirdriftSpeed;
-    [SerializeField] private float airdriftMultiplier;
-    [SerializeField] private float airfloatMultiplier;
-    [SerializeField] private float airfallSlowdown;
-    [SerializeField] private int jumpFloatMaxFrames;
-    [SerializeField] private float airdriftSlowdown;
-    [SerializeField] private int minimumJumpFrames;
     public float projectileSpeed;
     private int jumpFloatFrameCounter = 0;
     [SerializeField] private int totalHealth;
     
     
     [SerializeField] private FuelGaugeController fuelGaugeController;
-    [SerializeField] private float lowFuelSeconds;
-    [SerializeField] private int lowFuelBoosterStrength;
     [SerializeField] private bool lowFuelIsActive;
     
+    [SerializeField] private int nitroBoosterStrength;
     [SerializeField] private int boosterStrength;
     private int baseBoosterStrength;
     [SerializeField] private int dashStrength;
@@ -54,7 +43,7 @@ public class PlayerController : MonoBehaviour
     private static readonly int UpPressed = Animator.StringToHash("upPressed");
     private static readonly int DownPressed = Animator.StringToHash("downPressed");
     private static readonly int Die1 = Animator.StringToHash("Die");
-    private static readonly int FuelAmount = Animator.StringToHash("FuelAmount");
+    private static readonly int BoostPressed = Animator.StringToHash("boostPressed");
 
     private void OnEnable()
     {
@@ -82,9 +71,7 @@ public class PlayerController : MonoBehaviour
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = 60;
         
-        spriteRenderer = GetComponent<SpriteRenderer>();
         rigidbody2d = GetComponent<Rigidbody2D>();
-        boxCollider2D = GetComponent<BoxCollider2D>();
     }
 
 
@@ -195,12 +182,34 @@ public class PlayerController : MonoBehaviour
         {
             if(inputStates != null)
                 inputStates.boost = Started;
+            
+            //Set anim for nitro booster
+            if (lowFuelIsActive || inputStates == null || leftBoosterAnimator == null || !leftBoosterAnimator.isActiveAndEnabled ||
+                rightBoosterAnimator == null || !rightBoosterAnimator.isActiveAndEnabled || upBoosterAnimator == null ||
+                !upBoosterAnimator.isActiveAndEnabled || downBoosterAnimator == null ||
+                !downBoosterAnimator.isActiveAndEnabled) return;
+            
+            leftBoosterAnimator.SetBool(BoostPressed, true);
+            rightBoosterAnimator.SetBool(BoostPressed, true);
+            upBoosterAnimator.SetBool(BoostPressed, true);
+            downBoosterAnimator.SetBool(BoostPressed, true);
         }
         else if (context.performed){}
         else if (context.canceled)
         {
             if(inputStates != null)
                 inputStates.boost = Raised;
+            
+            //Set anim for nitro booster
+            if (inputStates == null || leftBoosterAnimator == null || !leftBoosterAnimator.isActiveAndEnabled ||
+                rightBoosterAnimator == null || !rightBoosterAnimator.isActiveAndEnabled || upBoosterAnimator == null ||
+                !upBoosterAnimator.isActiveAndEnabled || downBoosterAnimator == null ||
+                !downBoosterAnimator.isActiveAndEnabled) return;
+            
+            leftBoosterAnimator.SetBool(BoostPressed, false);
+            rightBoosterAnimator.SetBool(BoostPressed, false);
+            upBoosterAnimator.SetBool(BoostPressed, false);
+            downBoosterAnimator.SetBool(BoostPressed, false);
         }
     }
     
@@ -250,6 +259,74 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void SelectActionFromIdle()
+    {
+        if (Boost())
+        {
+            return;
+        }
+        if (Move(boosterStrength))        
+        {
+        }
+    }
+    
+    private bool Move(float boosterDefaultStrength)
+    {
+        //TODO: Account for keyboards holding both directions
+        var isMoving = false;
+        if (inputStates.left == Pressed)
+        {
+            if(rigidbody2d.velocity.x > -maxFloatSpeed)
+                rigidbody2d.AddForce(new Vector2(-boosterDefaultStrength,0));
+            isMoving = true;
+        }
+        if(inputStates.right == Pressed)
+        {
+            if(rigidbody2d.velocity.x < maxFloatSpeed)
+                rigidbody2d.AddForce(new Vector2(boosterDefaultStrength,0));
+            isMoving = true;
+        }
+        if(inputStates.up == Pressed)
+        {
+            if(rigidbody2d.velocity.y < maxFloatSpeed)
+                rigidbody2d.AddForce(new Vector2(0,boosterDefaultStrength));
+            isMoving = true;
+        }
+        if(inputStates.down == Pressed)
+        {
+            if(rigidbody2d.velocity.y > -maxFloatSpeed)
+                rigidbody2d.AddForce(new Vector2(0,-boosterDefaultStrength));
+            isMoving = true;
+        }
+
+        if(isMoving)
+            spaceShipAudioController.PlayBoosterSoundEffect();
+        else
+            spaceShipAudioController.StopBoosterSoundEffect();
+        
+        return isMoving;
+    }
+
+    private bool Boost()
+    {
+        //if (inputStates.boost != Pressed) return false;
+
+        if (lowFuelIsActive || inputStates.boost != Pressed || 
+            (inputStates.up != Pressed && inputStates.down != Pressed && 
+            inputStates.left != Pressed && inputStates.right != Pressed)) return false;
+
+        Move(nitroBoosterStrength);
+        fuelGaugeController.DecreaseFuel();
+
+        if (fuelGaugeController.IsFuelEmpty() && !lowFuelIsActive)
+        {
+            lowFuelIsActive = true;
+        }
+
+        return true;
+
+    }
+    
     public void TakeDamage(int damage)
     {
         totalHealth -= damage;
@@ -264,201 +341,8 @@ public class PlayerController : MonoBehaviour
 
     public void Die()
     {
+        OnDisable();
         Destroy(gameObject);
-    }
-
-
-    private void SelectActionFromIdle()
-    {
-        if (Boost())
-        {
-            return;
-        }
-        if (Move())        
-        {
-        }
-    }
-    private void SelectActionFromMove()
-    {
-        if (Boost())
-        {
-            return;
-        }
-        if (Move())
-        {
-        }
-    }
-    
-    private bool Move()
-    {
-        //TODO: Account for keyboards holding both directions
-        var isMoving = false;
-        if (inputStates.left == Pressed)
-        {
-            if(rigidbody2d.velocity.x > -maxFloatSpeed)
-                rigidbody2d.AddForce(new Vector2(-boosterStrength,0));
-            isMoving = true;
-        }
-        if(inputStates.right == Pressed)
-        {
-            if(rigidbody2d.velocity.x < maxFloatSpeed)
-                rigidbody2d.AddForce(new Vector2(boosterStrength,0));
-            isMoving = true;
-        }
-        if(inputStates.up == Pressed)
-        {
-            if(rigidbody2d.velocity.y < maxFloatSpeed)
-                rigidbody2d.AddForce(new Vector2(0,boosterStrength));
-            isMoving = true;
-        }
-        if(inputStates.down == Pressed)
-        {
-            if(rigidbody2d.velocity.y > -maxFloatSpeed)
-                rigidbody2d.AddForce(new Vector2(0,-boosterStrength));
-            isMoving = true;
-        }
-
-        if(isMoving)
-            spaceShipAudioController.PlayBoosterSoundEffect();
-        else
-            spaceShipAudioController.StopBoosterSoundEffect();
-        
-        return isMoving;
-    }
-    
-    IEnumerator LowFuelTimer()
-    {
-        lowFuelIsActive = true;
-        lowFuelBoosterStrength = 10;
-        boosterStrength = lowFuelBoosterStrength;
-        
-        yield return new WaitForSeconds(lowFuelSeconds);
-        
-        boosterStrength = baseBoosterStrength;
-        fuelGaugeController.SetGaugeFull();
-        lowFuelIsActive = false;
-    }
-    
-    private bool Boost()
-    {
-        //if (inputStates.boost != Pressed) return false;
-
-        if (lowFuelIsActive || inputStates.boost != Pressed || 
-            (inputStates.up != Pressed && inputStates.down != Pressed && 
-            inputStates.left != Pressed && inputStates.right != Pressed)) return false;
-        
-        fuelGaugeController.DecreaseFuel();
-
-        if (fuelGaugeController.IsFuelEmpty() && !lowFuelIsActive)
-        {
-            lowFuelIsActive = true;
-        }
-
-        return false;
-    }
-    
-    private void AerialDrift()
-    {
-        if (inputStates.left == Pressed && inputStates.right == Raised && rigidbody2d.velocity.x > -1 * maxAirdriftSpeed)
-        {
-            rigidbody2d.velocity += Vector2.left * airdriftMultiplier;
-            spriteRenderer.flipX = true;
-        }
-        else if (inputStates.right == Pressed && inputStates.left == Raised && rigidbody2d.velocity.x < maxAirdriftSpeed)
-        {
-            rigidbody2d.velocity += Vector2.right * airdriftMultiplier;
-            spriteRenderer.flipX = false;
-        }
-        else if (inputStates.right == Raised && inputStates.left == Raised)
-        {
-            
-            if (rigidbody2d.velocity.x > 0)
-            {
-                if (rigidbody2d.velocity.x < airdriftSlowdown)
-                {
-                    rigidbody2d.velocity = new Vector2(0, rigidbody2d.velocity.y);
-                }
-                else
-                {
-                    var velocity = rigidbody2d.velocity;
-                    velocity = new Vector2(velocity.x - airdriftSlowdown, velocity.y);
-                    rigidbody2d.velocity = velocity;
-                }
-            }
-            else if(rigidbody2d.velocity.x < 0)
-            {
-                if (rigidbody2d.velocity.x > -airdriftSlowdown)
-                {
-                    rigidbody2d.velocity = new Vector2(0, rigidbody2d.velocity.y);
-                }
-                else
-                {
-                    var velocity = rigidbody2d.velocity;
-                    velocity = new Vector2(velocity.x + airdriftSlowdown, velocity.y);
-                    rigidbody2d.velocity = velocity;
-                }
-            }
-        }
-    }
-
-    private void JumpFloat()
-    {
-        if(jumpFloatFrameCounter < jumpFloatMaxFrames)
-        {
-            switch (inputStates.boost)
-            {
-                case Pressed:
-                    rigidbody2d.velocity += Vector2.up * airfloatMultiplier;
-                    break;
-                case Raised:
-                    AirfallSlowdown();
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-            jumpFloatFrameCounter++;
-        }
-        else
-        {
-            AirfallSlowdown();
-        }
-    }
-
-    private void AirfallSlowdown()
-    {
-        if (jumpFloatFrameCounter < minimumJumpFrames) return;
-        if (rigidbody2d.velocity.y < airfallSlowdown && rigidbody2d.velocity.y > 0)
-        {
-            rigidbody2d.velocity = new Vector2(rigidbody2d.velocity.x, 0);
-        }
-        else if(rigidbody2d.velocity.y > 0)
-        {
-            var velocity = rigidbody2d.velocity;
-            velocity = new Vector2(velocity.x, velocity.y - airfallSlowdown);
-            rigidbody2d.velocity = velocity;
-        }
-    }
-
-
-    private bool IsGroundedRaycast()
-    {
-        const float extraHeight = .05f;
-        var bounds = boxCollider2D.bounds;
-        var raycastHit = Physics2D.BoxCast(bounds.center, bounds.size, 0f, Vector2.down,
-            extraHeight, platformLayerMask);
-
-        var rayColor = raycastHit.collider != null ? Color.green : Color.red;
-        
-        Debug.DrawRay(bounds.center + new Vector3(bounds.extents.x, 0),
-            Vector2.down * (bounds.extents.y + extraHeight), rayColor);
-        
-        Debug.DrawRay(boxCollider2D.bounds.center - new Vector3(bounds.extents.x, 0),
-            Vector2.down * (bounds.extents.y + extraHeight), rayColor);
-        
-        Debug.DrawRay(boxCollider2D.bounds.center - new Vector3(bounds.extents.x,
-            bounds.extents.y + extraHeight), Vector2.right * (bounds.extents.x * 2f), rayColor);
-
-        return raycastHit.collider != null;
     }
 
 }

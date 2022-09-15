@@ -302,9 +302,6 @@ MonoBehaviour:
   leftBoosterAnimator: {fileID: 3715024313804174962}
   rightBoosterAnimator: {fileID: 3715024314855824924}
   spaceShipAnimator: {fileID: 3715024313127936580}
-  platformLayerMask:
-    serializedVersion: 2
-    m_Bits: 8
   ContactFilter:
     useTriggers: 0
     useLayerMask: 0
@@ -319,20 +316,12 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 45
     maxNormalAngle: 135
-  maxAirdriftSpeed: 6
-  airdriftMultiplier: 0.7
-  airfloatMultiplier: 0.4
-  airfallSlowdown: 1
-  jumpFloatMaxFrames: 15
-  airdriftSlowdown: 1
-  minimumJumpFrames: 5
   projectileSpeed: 2000
   totalHealth: 1
   fuelGaugeController: {fileID: 6373883221421314061}
-  lowFuelSeconds: 4
-  lowFuelBoosterStrength: 10
   lowFuelIsActive: 0
-  boosterStrength: 25
+  nitroBoosterStrength: 45
+  boosterStrength: 15
   dashStrength: 500
   maxFloatSpeed: 20
 --- !u!114 &3715024313127936576

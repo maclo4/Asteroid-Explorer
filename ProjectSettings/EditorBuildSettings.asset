@@ -26,4 +26,5 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/MediumArena2.unity
     guid: 784d6e00cbb6dbd48a06991591e22617
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: 5eff6e47dd8264f40b3af40ef71a6be8, type: 2}
