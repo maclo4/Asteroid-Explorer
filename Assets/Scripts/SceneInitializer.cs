@@ -13,21 +13,34 @@ public class SceneInitializer : MonoBehaviour
     {
         try
         {
-            var players = CrossSceneVariables.playerCount;
-            var p1Device = InputSystem.devices.Where(_ => _.deviceId == CrossSceneVariables.player1[0]);
-            var p2Device = InputSystem.devices.Where(_ => _.deviceId == CrossSceneVariables.player2[0]);
-            
-            var player1InputManager =
-                playerInputManager.JoinPlayer(pairWithDevices: p1Device.ToArray());
-            player1InputManager.transform.position = player1Transform.transform.position;
-            var player2InputManager =
-                playerInputManager.JoinPlayer(pairWithDevices: p2Device.ToArray());
-            player2InputManager.transform.position = player2Transform.transform.position;
+            if (CrossSceneVariables.startedFromMenu)
+            {
+                var players = CrossSceneVariables.playerCount;
+                var p1Device = InputSystem.devices.Where(_ => _.deviceId == CrossSceneVariables.player1[0]);
+                var p2Device = InputSystem.devices.Where(_ => _.deviceId == CrossSceneVariables.player2[0]);
+
+                var player1InputManager =
+                    playerInputManager.JoinPlayer(pairWithDevices: p1Device.ToArray());
+                player1InputManager.transform.position = player1Transform.transform.position;
+                var player2InputManager =
+                    playerInputManager.JoinPlayer(pairWithDevices: p2Device.ToArray());
+                player2InputManager.transform.position = player2Transform.transform.position;
+            }
+            else
+            {
+                playerInputManager.joinBehavior = PlayerJoinBehavior.JoinPlayersWhenButtonIsPressed;
+            }
         }
         catch (NullReferenceException exception)
         {
             Debug.Log(exception);
         }
+    }
+
+    public void OnPlayerJoin(PlayerInput playerInput)
+    {
+        if(!CrossSceneVariables.startedFromMenu)
+            playerInput.transform.position = player1Transform.transform.position;
     }
 
 }

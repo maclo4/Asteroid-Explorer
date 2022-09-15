@@ -10,6 +10,8 @@ public class ProjectileController : MonoBehaviour
     private Rigidbody2D rigidbody2D;
     private Animator animator;
     private static readonly int Explode = Animator.StringToHash("Explode");
+    private AudioSource audioSource;
+    public AudioClip laserClip, explosionClip;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -40,6 +42,8 @@ public class ProjectileController : MonoBehaviour
     {
         animator = gameObject.GetComponent<Animator>();
         rigidbody2D = gameObject.GetComponent<Rigidbody2D>();
+        audioSource = gameObject.GetComponent<AudioSource>();
+        audioSource.PlayOneShot(laserClip);
         StartCoroutine(ExecuteAfterTime(lifespanInSeconds));
     }
     
@@ -54,5 +58,13 @@ public class ProjectileController : MonoBehaviour
     public void Destroy()
     {
         Destroy(gameObject);
+    }
+
+    public void PlayExplosionSound()
+    {
+        audioSource.pitch = 3f;
+        audioSource.volume = .3f;
+        audioSource.PlayOneShot(explosionClip);
+        //audioSource.pitch = 1;
     }
 }

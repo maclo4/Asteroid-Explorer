@@ -13,13 +13,14 @@ public class MenuController : MonoBehaviour
 
     public void LoadScene()
     {
+        CrossSceneVariables.startedFromMenu = true;
         StartCoroutine(LoadLevel());
     }
 
     IEnumerator LoadLevel()
     {
         fadeAnimator.SetTrigger(FadeOut);
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         SceneManager.LoadScene("Scenes/MediumArena2");
     }
 

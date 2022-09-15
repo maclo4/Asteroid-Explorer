@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/InputActions_AsteroidExplorer.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/InputActions/InputActions_AsteroidExplorer.inputactions'
 
 using System;
 using System.Collections;
@@ -35,7 +35,7 @@ public class @InputActions_AsteroidExplorer : IInputActionCollection, IDisposabl
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Jump"",
+                    ""name"": ""Boost"",
                     ""type"": ""Button"",
                     ""id"": ""f1580859-b7eb-4cfc-a4af-ca3e7ce24db7"",
                     ""expectedControlType"": ""Button"",
@@ -157,7 +157,18 @@ public class @InputActions_AsteroidExplorer : IInputActionCollection, IDisposabl
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Jump"",
+                    ""action"": ""Boost"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ad935385-917c-43d8-a15e-5eeb79340375"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Boost"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -346,7 +357,7 @@ public class @InputActions_AsteroidExplorer : IInputActionCollection, IDisposabl
         m_SpaceShipActionMap = asset.FindActionMap("SpaceShipActionMap", throwIfNotFound: true);
         m_SpaceShipActionMap_Right = m_SpaceShipActionMap.FindAction("Right", throwIfNotFound: true);
         m_SpaceShipActionMap_Left = m_SpaceShipActionMap.FindAction("Left", throwIfNotFound: true);
-        m_SpaceShipActionMap_Jump = m_SpaceShipActionMap.FindAction("Jump", throwIfNotFound: true);
+        m_SpaceShipActionMap_Boost = m_SpaceShipActionMap.FindAction("Boost", throwIfNotFound: true);
         m_SpaceShipActionMap_Up = m_SpaceShipActionMap.FindAction("Up", throwIfNotFound: true);
         m_SpaceShipActionMap_Down = m_SpaceShipActionMap.FindAction("Down", throwIfNotFound: true);
         m_SpaceShipActionMap_Interact = m_SpaceShipActionMap.FindAction("Interact", throwIfNotFound: true);
@@ -403,7 +414,7 @@ public class @InputActions_AsteroidExplorer : IInputActionCollection, IDisposabl
     private ISpaceShipActionMapActions m_SpaceShipActionMapActionsCallbackInterface;
     private readonly InputAction m_SpaceShipActionMap_Right;
     private readonly InputAction m_SpaceShipActionMap_Left;
-    private readonly InputAction m_SpaceShipActionMap_Jump;
+    private readonly InputAction m_SpaceShipActionMap_Boost;
     private readonly InputAction m_SpaceShipActionMap_Up;
     private readonly InputAction m_SpaceShipActionMap_Down;
     private readonly InputAction m_SpaceShipActionMap_Interact;
@@ -415,7 +426,7 @@ public class @InputActions_AsteroidExplorer : IInputActionCollection, IDisposabl
         public SpaceShipActionMapActions(@InputActions_AsteroidExplorer wrapper) { m_Wrapper = wrapper; }
         public InputAction @Right => m_Wrapper.m_SpaceShipActionMap_Right;
         public InputAction @Left => m_Wrapper.m_SpaceShipActionMap_Left;
-        public InputAction @Jump => m_Wrapper.m_SpaceShipActionMap_Jump;
+        public InputAction @Boost => m_Wrapper.m_SpaceShipActionMap_Boost;
         public InputAction @Up => m_Wrapper.m_SpaceShipActionMap_Up;
         public InputAction @Down => m_Wrapper.m_SpaceShipActionMap_Down;
         public InputAction @Interact => m_Wrapper.m_SpaceShipActionMap_Interact;
@@ -436,9 +447,9 @@ public class @InputActions_AsteroidExplorer : IInputActionCollection, IDisposabl
                 @Left.started -= m_Wrapper.m_SpaceShipActionMapActionsCallbackInterface.OnLeft;
                 @Left.performed -= m_Wrapper.m_SpaceShipActionMapActionsCallbackInterface.OnLeft;
                 @Left.canceled -= m_Wrapper.m_SpaceShipActionMapActionsCallbackInterface.OnLeft;
-                @Jump.started -= m_Wrapper.m_SpaceShipActionMapActionsCallbackInterface.OnJump;
-                @Jump.performed -= m_Wrapper.m_SpaceShipActionMapActionsCallbackInterface.OnJump;
-                @Jump.canceled -= m_Wrapper.m_SpaceShipActionMapActionsCallbackInterface.OnJump;
+                @Boost.started -= m_Wrapper.m_SpaceShipActionMapActionsCallbackInterface.OnBoost;
+                @Boost.performed -= m_Wrapper.m_SpaceShipActionMapActionsCallbackInterface.OnBoost;
+                @Boost.canceled -= m_Wrapper.m_SpaceShipActionMapActionsCallbackInterface.OnBoost;
                 @Up.started -= m_Wrapper.m_SpaceShipActionMapActionsCallbackInterface.OnUp;
                 @Up.performed -= m_Wrapper.m_SpaceShipActionMapActionsCallbackInterface.OnUp;
                 @Up.canceled -= m_Wrapper.m_SpaceShipActionMapActionsCallbackInterface.OnUp;
@@ -464,9 +475,9 @@ public class @InputActions_AsteroidExplorer : IInputActionCollection, IDisposabl
                 @Left.started += instance.OnLeft;
                 @Left.performed += instance.OnLeft;
                 @Left.canceled += instance.OnLeft;
-                @Jump.started += instance.OnJump;
-                @Jump.performed += instance.OnJump;
-                @Jump.canceled += instance.OnJump;
+                @Boost.started += instance.OnBoost;
+                @Boost.performed += instance.OnBoost;
+                @Boost.canceled += instance.OnBoost;
                 @Up.started += instance.OnUp;
                 @Up.performed += instance.OnUp;
                 @Up.canceled += instance.OnUp;
@@ -490,7 +501,7 @@ public class @InputActions_AsteroidExplorer : IInputActionCollection, IDisposabl
     {
         void OnRight(InputAction.CallbackContext context);
         void OnLeft(InputAction.CallbackContext context);
-        void OnJump(InputAction.CallbackContext context);
+        void OnBoost(InputAction.CallbackContext context);
         void OnUp(InputAction.CallbackContext context);
         void OnDown(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);

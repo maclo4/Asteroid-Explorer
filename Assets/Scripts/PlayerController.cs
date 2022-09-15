@@ -22,6 +22,8 @@ public class PlayerController : MonoBehaviour
     private InputActions_AsteroidExplorer inputActions;
     private CharacterStates characterState;
     private InputStates inputStates;
+
+    private SpaceShipAudioController spaceShipAudioController;
     
     [SerializeField] private ContactFilter2D ContactFilter;
     private bool IsGrounded => rigidbody2d.IsTouching(ContactFilter);
@@ -37,7 +39,14 @@ public class PlayerController : MonoBehaviour
     private int jumpFloatFrameCounter = 0;
     [SerializeField] private int totalHealth;
     
+    
+    [SerializeField] private FuelGaugeController fuelGaugeController;
+    [SerializeField] private float lowFuelSeconds;
+    [SerializeField] private int lowFuelBoosterStrength;
+    [SerializeField] private bool lowFuelIsActive;
+    
     [SerializeField] private int boosterStrength;
+    private int baseBoosterStrength;
     [SerializeField] private int dashStrength;
     [SerializeField] private int maxFloatSpeed;
     private static readonly int LeftPressed = Animator.StringToHash("leftPressed");
@@ -45,7 +54,7 @@ public class PlayerController : MonoBehaviour
     private static readonly int UpPressed = Animator.StringToHash("upPressed");
     private static readonly int DownPressed = Animator.StringToHash("downPressed");
     private static readonly int Die1 = Animator.StringToHash("Die");
-
+    private static readonly int FuelAmount = Animator.StringToHash("FuelAmount");
 
     private void OnEnable()
     {
@@ -59,11 +68,25 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        spaceShipAudioController = gameObject.GetComponent<SpaceShipAudioController>();
         characterState = CharacterStates.Idle;
         inputStates = new InputStates();
         inputActions = new InputActions_AsteroidExplorer();
         inputActions.SpaceShipActionMap.Aim.performed += AimActionCallback;
+
+        baseBoosterStrength = boosterStrength;
     }
+        // Start is called before the first frame update
+    private void Start()
+    {
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 60;
+        
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        rigidbody2d = GetComponent<Rigidbody2D>();
+        boxCollider2D = GetComponent<BoxCollider2D>();
+    }
+
 
     private void AimActionCallback(InputAction.CallbackContext context)
     {
@@ -166,6 +189,20 @@ public class PlayerController : MonoBehaviour
                 inputStates.boost = Raised;
         }
     }
+    public void BoostActionCallback(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            if(inputStates != null)
+                inputStates.boost = Started;
+        }
+        else if (context.performed){}
+        else if (context.canceled)
+        {
+            if(inputStates != null)
+                inputStates.boost = Raised;
+        }
+    }
     
     public void ShootActionCallback(InputAction.CallbackContext context)
     {
@@ -193,17 +230,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    private void Start()
-    {
-        QualitySettings.vSyncCount = 0;
-        Application.targetFrameRate = 60;
-        
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        rigidbody2d = GetComponent<Rigidbody2D>();
-        boxCollider2D = GetComponent<BoxCollider2D>();
-    }
-
     // Update is called once per frame
     private void Update()
     {
@@ -211,24 +237,6 @@ public class PlayerController : MonoBehaviour
         {
             case CharacterStates.Idle:
                 SelectActionFromIdle();
-                break;
-            case CharacterStates.MoveRight:
-                SelectActionFromMove();
-                break;
-            case CharacterStates.MoveLeft:
-                SelectActionFromMove();
-                break;
-            case CharacterStates.MoveUp:
-                SelectActionFromMove();
-                break;
-            case CharacterStates.MoveDown:
-                SelectActionFromMove();
-                break;
-            case CharacterStates.Dash:
-                break;
-            case CharacterStates.Jump:
-                //SetJumpAnimation();
-                SelectActionFromJump();
                 break;
             case CharacterStates.Dead:
                 break;
@@ -262,124 +270,91 @@ public class PlayerController : MonoBehaviour
 
     private void SelectActionFromIdle()
     {
-        /*if (Boost())
+        if (Boost())
         {
             return;
-        }*/
+        }
         if (Move())        
         {
         }
     }
     private void SelectActionFromMove()
     {
-        /*if (Boost())
+        if (Boost())
         {
             return;
-        }*/
+        }
         if (Move())
         {
-            return;
         }
-        //characterState = CharacterStates.Idle;
     }
     
-    private void SelectActionFromJump()
-    {
-        if (IsGrounded && rigidbody2d.velocity.y <= 0)
-        {
-            rigidbody2d.velocity = new Vector2(0, rigidbody2d.velocity.y);
-            jumpFloatFrameCounter = 0;
-
-            
-            if (inputStates.left == Pressed)
-                characterState = CharacterStates.MoveLeft;
-            else if (inputStates.right == Pressed)
-                characterState = CharacterStates.MoveRight;
-            else
-                characterState = CharacterStates.Idle;
-            return;
-        }
-
-        AerialDrift();
-        JumpFloat();
-    }
-
-
-
     private bool Move()
     {
         //TODO: Account for keyboards holding both directions
         var isMoving = false;
         if (inputStates.left == Pressed)
         {
-            characterState = CharacterStates.MoveLeft;
             if(rigidbody2d.velocity.x > -maxFloatSpeed)
                 rigidbody2d.AddForce(new Vector2(-boosterStrength,0));
+            isMoving = true;
         }
         if(inputStates.right == Pressed)
         {
-            characterState = CharacterStates.MoveRight;
             if(rigidbody2d.velocity.x < maxFloatSpeed)
                 rigidbody2d.AddForce(new Vector2(boosterStrength,0));
             isMoving = true;
         }
         if(inputStates.up == Pressed)
         {
-            characterState = CharacterStates.MoveUp;
             if(rigidbody2d.velocity.y < maxFloatSpeed)
                 rigidbody2d.AddForce(new Vector2(0,boosterStrength));
             isMoving = true;
         }
         if(inputStates.down == Pressed)
         {
-            characterState = CharacterStates.MoveDown;
             if(rigidbody2d.velocity.y > -maxFloatSpeed)
                 rigidbody2d.AddForce(new Vector2(0,-boosterStrength));
             isMoving = true;
         }
+
+        if(isMoving)
+            spaceShipAudioController.PlayBoosterSoundEffect();
+        else
+            spaceShipAudioController.StopBoosterSoundEffect();
         
         return isMoving;
     }
+    
+    IEnumerator LowFuelTimer()
+    {
+        lowFuelIsActive = true;
+        lowFuelBoosterStrength = 10;
+        boosterStrength = lowFuelBoosterStrength;
+        
+        yield return new WaitForSeconds(lowFuelSeconds);
+        
+        boosterStrength = baseBoosterStrength;
+        fuelGaugeController.SetGaugeFull();
+        lowFuelIsActive = false;
+    }
+    
     private bool Boost()
     {
-        if (inputStates.boost != Started) return false;
+        //if (inputStates.boost != Pressed) return false;
 
-        /*if (inputStates.left == Pressed || inputStates.right == Pressed ||
-            inputStates.up == Pressed || inputStates.down == Pressed)
-        {
-            rigidbody2d.velocity = Vector2.zero;
-        }*/
+        if (lowFuelIsActive || inputStates.boost != Pressed || 
+            (inputStates.up != Pressed && inputStates.down != Pressed && 
+            inputStates.left != Pressed && inputStates.right != Pressed)) return false;
+        
+        fuelGaugeController.DecreaseFuel();
 
-        if (inputStates.left == Pressed)
+        if (fuelGaugeController.IsFuelEmpty() && !lowFuelIsActive)
         {
-            characterState = CharacterStates.MoveLeft;
-            spriteRenderer.flipX = true;
-            if(rigidbody2d.velocity.x > -maxFloatSpeed)
-                rigidbody2d.AddForce(new Vector2(-dashStrength,0));
-        }
-        if(inputStates.right == Pressed)
-        {
-            characterState = CharacterStates.MoveRight;
-            spriteRenderer.flipX = false;
-            if(rigidbody2d.velocity.x < maxFloatSpeed)
-                rigidbody2d.AddForce(new Vector2(dashStrength,0));
-        }
-        if(inputStates.up == Pressed)
-        {
-            characterState = CharacterStates.MoveUp;
-            spriteRenderer.flipY = true;
-            if(rigidbody2d.velocity.y < maxFloatSpeed)
-                rigidbody2d.AddForce(new Vector2(0,dashStrength));
-        }
-        if(inputStates.down == Pressed)
-        {
-            characterState = CharacterStates.MoveDown;
-            spriteRenderer.flipY = false;
-            if(rigidbody2d.velocity.y > -maxFloatSpeed)
-                rigidbody2d.AddForce(new Vector2(0,-dashStrength));
+            lowFuelIsActive = true;
         }
 
-        return true;
+        return false;
     }
     
     private void AerialDrift()

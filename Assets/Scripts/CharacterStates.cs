@@ -10,6 +10,7 @@ namespace Scripts
         MoveDown,
         Dash,
         Jump,
-        Dead
+        Dead,
+        LowFuel
     }
 }

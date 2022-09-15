@@ -22,7 +22,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Jump",
+                    "name": "Boost",
                     "type": "Button",
                     "id": "f1580859-b7eb-4cfc-a4af-ca3e7ce24db7",
                     "expectedControlType": "Button",
@@ -144,7 +144,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Jump",
+                    "action": "Boost",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ad935385-917c-43d8-a15e-5eeb79340375",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Boost",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
