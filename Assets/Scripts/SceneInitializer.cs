@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 
 public class SceneInitializer : MonoBehaviour
 {
-    public GameObject player1Transform, player2Transform;
+    public GameObject player1Transform, player2Transform, playerPrefab;
 
     public PlayerInputManager playerInputManager;
     // Start is called before the first frame update
@@ -28,6 +28,7 @@ public class SceneInitializer : MonoBehaviour
             }
             else
             {
+                playerInputManager.playerPrefab = playerPrefab;
                 playerInputManager.joinBehavior = PlayerJoinBehavior.JoinPlayersWhenButtonIsPressed;
             }
         }
