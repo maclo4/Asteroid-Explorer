@@ -5,12 +5,9 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/MenuScene.unity
     guid: dd30f00377e037d45bcc397e5a6d9672
-  - enabled: 1
-    path: Assets/Scenes/MediumArena2.unity
-    guid: 784d6e00cbb6dbd48a06991591e22617
   - enabled: 0
     path: Assets/LevelTwo/LevelTwo.unity
     guid: b34cb06ee4d46f644aedbef52868e1bd
@@ -23,8 +20,11 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/ManagerScene.unity
     guid: e1919428aefb73a4d943e8b43dddebab
-  - enabled: 0
-    path: Assets/Scenes/MediumArena2.unity
+  - enabled: 1
+    path: Assets/Scenes/BaseArena.unity
     guid: 784d6e00cbb6dbd48a06991591e22617
+  - enabled: 0
+    path: Assets/Scenes/ScrollingArena.unity
+    guid: c95f9b5fc2d4c074381e10e746836b3b
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 5eff6e47dd8264f40b3af40ef71a6be8, type: 2}

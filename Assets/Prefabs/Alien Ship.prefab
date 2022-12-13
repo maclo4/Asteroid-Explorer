@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5636582279785858001}
   - component: {fileID: 7922904648750320758}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Gauge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4003914427496987198}
   - component: {fileID: 4716661239263367751}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Booster Audio
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -220,7 +220,7 @@ GameObject:
   - component: {fileID: 4800209336612698600}
   - component: {fileID: 4800209336612698606}
   - component: {fileID: 4800209336612698607}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: LeftBooster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -322,7 +322,7 @@ GameObject:
   - component: {fileID: 4800209336741039014}
   - component: {fileID: 4800209336741039012}
   - component: {fileID: 4800209336741039013}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: UpBooster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -432,7 +432,7 @@ GameObject:
   - component: {fileID: 4800209337160305692}
   - component: {fileID: 2514551107855672262}
   - component: {fileID: 3592140969840601369}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Alien Ship
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -546,9 +546,9 @@ Rigidbody2D:
   m_AngularDrag: 0
   m_GravityScale: 0
   m_Material: {fileID: 6200000, guid: 5695c50f6d5de734689d791c6777493d, type: 2}
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
   m_Constraints: 4
 --- !u!61 &4800209337270316507
 BoxCollider2D:
@@ -608,12 +608,12 @@ MonoBehaviour:
     maxDepth: 0
     minNormalAngle: 45
     maxNormalAngle: 135
-  projectileSpeed: 2000
+  projectileSpeed: 1500
   totalHealth: 1
   fuelGaugeController: {fileID: 2983418281090572176}
   lowFuelIsActive: 0
-  nitroBoosterStrength: 45
-  boosterStrength: 15
+  nitroBoosterStrength: 40
+  boosterStrength: 20
   dashStrength: 500
   maxFloatSpeed: 20
 --- !u!114 &4800209337270316509
@@ -759,13 +759,13 @@ CircleCollider2D:
   m_GameObject: {fileID: 4800209337270316324}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 806920d0bef2675458141ade74c4233b, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.016058326}
+  m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.9423045
+  m_Radius: 0.85
 --- !u!114 &4800209337160305692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -902,7 +902,7 @@ GameObject:
   - component: {fileID: 4800209337656480130}
   - component: {fileID: 4800209337656480128}
   - component: {fileID: 4800209337656480129}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RightBooster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1004,7 +1004,7 @@ GameObject:
   - component: {fileID: 4800209337792149525}
   - component: {fileID: 4800209337792149515}
   - component: {fileID: 4800209337792149524}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: DownBooster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1107,7 +1107,7 @@ GameObject:
   - component: {fileID: 7526626557344997702}
   - component: {fileID: 8084513834139995264}
   - component: {fileID: 2983418281090572176}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: FuelGauge
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Animator rightBoosterAnimator;
     [SerializeField] private Animator spaceShipAnimator;
     private Rigidbody2D rigidbody2d;
+    private CircleCollider2D circleCollider2D;
 
     private InputActions_AsteroidExplorer inputActions;
     private CharacterStates characterState;
@@ -69,9 +70,10 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         QualitySettings.vSyncCount = 0;
-        Application.targetFrameRate = 60;
+        //Application.targetFrameRate = 60;
         
         rigidbody2d = GetComponent<Rigidbody2D>();
+        circleCollider2D = GetComponent<CircleCollider2D>();
     }
 
 
@@ -221,15 +223,22 @@ public class PlayerController : MonoBehaviour
             {
                 var projectileInstance = Instantiate(projectile, transform);
                 var projectileRigidbody = projectileInstance.GetComponent<Rigidbody2D>();
+                var projectileController = projectileInstance.GetComponent<ProjectileController>();
+                Physics2D.IgnoreCollision(circleCollider2D, projectileController.boxCollider2D);
+                
                 var aimDirection = inputStates.aim;
-                if (aimDirection.x < .05 && aimDirection.x > -.05 ||
+                if (aimDirection.x < .05 && aimDirection.x > -.05 && 
                     aimDirection.y < .05 && aimDirection.y > -.05)
                 {
                     projectileRigidbody.AddForce(inputStates.defaultAim.normalized * projectileSpeed);
-                    return;
+                    aimDirection = inputStates.defaultAim.normalized;
                 }
-
-                projectileRigidbody.AddForce(inputStates.aim.normalized * projectileSpeed);
+                else
+                {
+                    projectileRigidbody.AddForce(inputStates.aim.normalized * projectileSpeed);
+                }
+                var angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
+                projectileInstance.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
             }
         }
         else if (context.performed){}
@@ -240,8 +249,16 @@ public class PlayerController : MonoBehaviour
     }
 
     // Update is called once per frame
-    private void Update()
+    private void FixedUpdate()
     {
+        /*Debug.Log("x: " + rigidbody2d.velocity.x);
+        Debug.Log("y: " + rigidbody2d.velocity.y);
+        if (rigidbody2d.velocity.x < .6 && rigidbody2d.velocity.x > -.6)
+            rigidbody2d.velocity = new Vector2(0, rigidbody2d.velocity.y);
+        if(rigidbody2d.velocity.y < .6 && rigidbody2d.velocity.y > -.6)
+            rigidbody2d.velocity = new Vector2(rigidbody2d.velocity.x, 0);*/
+        
+        
         switch (characterState)
         {
             case CharacterStates.Idle:

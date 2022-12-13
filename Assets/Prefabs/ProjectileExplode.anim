@@ -20,13 +20,21 @@ AnimationClip:
   m_PPtrCurves:
   - curve:
     - time: 0
-      value: {fileID: 21300000, guid: b36e91e4d6a6b0d43baa15d96bd43782, type: 3}
+      value: {fileID: -4625965200364843426, guid: be7443b092e89d24f923430c29ba0597, type: 3}
+    - time: 0.033333335
+      value: {fileID: -208267998733222760, guid: be7443b092e89d24f923430c29ba0597, type: 3}
     - time: 0.083333336
-      value: {fileID: 21300002, guid: b36e91e4d6a6b0d43baa15d96bd43782, type: 3}
+      value: {fileID: -6131150567242327500, guid: be7443b092e89d24f923430c29ba0597, type: 3}
+    - time: 0.11666667
+      value: {fileID: -2092004726081965303, guid: be7443b092e89d24f923430c29ba0597, type: 3}
+    - time: 0.15
+      value: {fileID: 321748802186315435, guid: be7443b092e89d24f923430c29ba0597, type: 3}
     - time: 0.18333334
-      value: {fileID: 21300004, guid: b36e91e4d6a6b0d43baa15d96bd43782, type: 3}
+      value: {fileID: -4960266159461346474, guid: be7443b092e89d24f923430c29ba0597, type: 3}
+    - time: 0.23333333
+      value: {fileID: 2643740925410311312, guid: be7443b092e89d24f923430c29ba0597, type: 3}
     - time: 0.26666668
-      value: {fileID: 21300006, guid: b36e91e4d6a6b0d43baa15d96bd43782, type: 3}
+      value: {fileID: 6990884901119904045, guid: be7443b092e89d24f923430c29ba0597, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -46,10 +54,14 @@ AnimationClip:
       customType: 23
       isPPtrCurve: 1
     pptrCurveMapping:
-    - {fileID: 21300000, guid: b36e91e4d6a6b0d43baa15d96bd43782, type: 3}
-    - {fileID: 21300002, guid: b36e91e4d6a6b0d43baa15d96bd43782, type: 3}
-    - {fileID: 21300004, guid: b36e91e4d6a6b0d43baa15d96bd43782, type: 3}
-    - {fileID: 21300006, guid: b36e91e4d6a6b0d43baa15d96bd43782, type: 3}
+    - {fileID: -4625965200364843426, guid: be7443b092e89d24f923430c29ba0597, type: 3}
+    - {fileID: -208267998733222760, guid: be7443b092e89d24f923430c29ba0597, type: 3}
+    - {fileID: -6131150567242327500, guid: be7443b092e89d24f923430c29ba0597, type: 3}
+    - {fileID: -2092004726081965303, guid: be7443b092e89d24f923430c29ba0597, type: 3}
+    - {fileID: 321748802186315435, guid: be7443b092e89d24f923430c29ba0597, type: 3}
+    - {fileID: -4960266159461346474, guid: be7443b092e89d24f923430c29ba0597, type: 3}
+    - {fileID: 2643740925410311312, guid: be7443b092e89d24f923430c29ba0597, type: 3}
+    - {fileID: 6990884901119904045, guid: be7443b092e89d24f923430c29ba0597, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
@@ -77,6 +89,13 @@ AnimationClip:
   m_Events:
   - time: 0
     functionName: PlayExplosionSound
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.033333335
+    functionName: DisableCollisionBox
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

@@ -321,7 +321,7 @@ MonoBehaviour:
   fuelGaugeController: {fileID: 6373883221421314061}
   lowFuelIsActive: 0
   nitroBoosterStrength: 45
-  boosterStrength: 15
+  boosterStrength: 25
   dashStrength: 500
   maxFloatSpeed: 20
 --- !u!114 &3715024313127936576

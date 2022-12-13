@@ -1,6 +1,4 @@
-using System;
 using System.Collections;
-using Scripts;
 using UnityEngine;
 
 public class ProjectileController : MonoBehaviour
@@ -9,9 +7,11 @@ public class ProjectileController : MonoBehaviour
     public float lifespanInSeconds = 5f;
     private Rigidbody2D rigidbody2D;
     private Animator animator;
+    [SerializeField] public BoxCollider2D boxCollider2D, boxTriggerCollider2D;
     private static readonly int Explode = Animator.StringToHash("Explode");
     private AudioSource audioSource;
     public AudioClip laserClip, explosionClip;
+    
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -19,13 +19,11 @@ public class ProjectileController : MonoBehaviour
         {
             other.TryGetComponent(out PlayerController playerController);
             playerController.TakeDamage(1);
-            rigidbody2D.velocity = Vector2.zero;
             animator.SetTrigger(Explode);
         }
         if (other.CompareTag("Ground"))
         {
-            rigidbody2D.velocity = Vector2.zero;
-            animator.SetTrigger("Explode");
+            animator.SetTrigger(Explode);
         }
     }
 
@@ -34,6 +32,7 @@ public class ProjectileController : MonoBehaviour
         if (other.CompareTag("Player") &&
             other.gameObject.GetInstanceID() == gameObject.transform.parent.gameObject.GetInstanceID())
         {
+            Physics2D.IgnoreCollision(boxCollider2D, other, false);
             hasExitedOwner = true;
         }
     }
@@ -65,6 +64,12 @@ public class ProjectileController : MonoBehaviour
         audioSource.pitch = 3f;
         audioSource.volume = .3f;
         audioSource.PlayOneShot(explosionClip);
-        //audioSource.pitch = 1;
+    }
+
+    public void DisableCollisionBox()
+    {
+        rigidbody2D.velocity = Vector2.zero;
+        boxCollider2D.enabled = false;
+        boxTriggerCollider2D.enabled = false;
     }
 }

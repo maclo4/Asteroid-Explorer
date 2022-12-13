@@ -14,12 +14,12 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Projectile
+  - Ground
+  - Teleporter
+  - Player
+  - Hurtbox
+  - Hitbox
   - 
   - 
   - 
