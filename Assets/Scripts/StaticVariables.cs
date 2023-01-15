@@ -2,6 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public static class StaticVariables
+{
+    public static GameObject player;
+}
+/*
 public class StaticVariables : MonoBehaviour
 {
     public static StaticVariables instance;
@@ -19,4 +24,4 @@ public class StaticVariables : MonoBehaviour
     {
         
     }
-}
+}*/

@@ -21,7 +21,7 @@ public class MenuController : MonoBehaviour
     {
         fadeAnimator.SetTrigger(FadeOut);
         yield return new WaitForSeconds(1f);
-        SceneManager.LoadScene("Scenes/MediumArena2");
+        SceneManager.LoadScene("BaseArena");
     }
 
 

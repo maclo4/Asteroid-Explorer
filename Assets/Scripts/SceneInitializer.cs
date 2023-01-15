@@ -1,5 +1,3 @@
-using System;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,8 +6,13 @@ public class SceneInitializer : MonoBehaviour
     public GameObject player1Transform, player2Transform, playerPrefab;
 
     public PlayerInputManager playerInputManager;
+
+    public void Start()
+    {
+        
+    }
     // Start is called before the first frame update
-    void Start()
+    /*void Start()
     {
         try
         {
@@ -36,12 +39,12 @@ public class SceneInitializer : MonoBehaviour
         {
             Debug.Log(exception);
         }
-    }
+    }*/
 
-    public void OnPlayerJoin(PlayerInput playerInput)
+    /*public void OnPlayerJoin(PlayerInput playerInput)
     {
         if(!CrossSceneVariables.startedFromMenu)
             playerInput.transform.position = player1Transform.transform.position;
-    }
+    }*/
 
 }
