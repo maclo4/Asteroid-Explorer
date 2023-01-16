@@ -8,7 +8,7 @@ public class TentacleAi : MonoBehaviour
 {
     private Transform target;
     private Vector3 closestSurfaceToTarget;
-    public float speed = 200f;
+    public float speed;
     public float nextWaypointDistance = 3f;
 
     private RandomTileSelector randomTileSelector;
@@ -16,12 +16,9 @@ public class TentacleAi : MonoBehaviour
      
     private Path path;
     private int currentWaypoint;
-    private bool reachedEndOfPath;
+    private bool reachedEndOfPath = true;
 
     private Seeker seeker;
-    public Seeker bodyToTentacleSeeker;
-    private Path bodyToTentaclePath;
-
     private Rigidbody2D rb;
     
 
@@ -31,20 +28,19 @@ public class TentacleAi : MonoBehaviour
         seeker = GetComponent<Seeker>();
         rb = GetComponent<Rigidbody2D>();
         randomTileSelector = GetComponent<RandomTileSelector>();
-        bodyToTentacleSeeker = GetComponentInChildren<Seeker>();
         var player = GameObject.FindGameObjectWithTag("Player");
         target = player.transform;
         
-        closestSurfaceToTarget = randomTileSelector.ScanNearTarget(transform.position, target.position);
+        closestSurfaceToTarget = randomTileSelector.ScanNearTarget(target.position, body.position);
         
-        InvokeRepeating("UpdatePath", 0f, .5f);
+        InvokeRepeating("UpdatePath", 0f, 1f);
     }
 
     void UpdatePath()
     {
         if (seeker.IsDone())
         {
-            closestSurfaceToTarget = randomTileSelector.ScanNearTarget(transform.position, target.position);
+            closestSurfaceToTarget = randomTileSelector.ScanNearTarget(target.position, body.position);
             seeker.StartPath(transform.position, closestSurfaceToTarget, OnPathComplete);
         }
 
@@ -55,22 +51,6 @@ public class TentacleAi : MonoBehaviour
         {
             path = p;
             currentWaypoint = 0;
-        }
-    }
-    
-    void UpdateBodyToTentaclePath()
-    {
-        if (bodyToTentacleSeeker.IsDone())
-        {
-            bodyToTentacleSeeker.StartPath(body.position, rb.position, OnBodyToTentaclePathComplete);
-        }
-
-    }
-    void OnBodyToTentaclePathComplete(Path p)
-    {
-        if (!p.error)
-        {
-            bodyToTentaclePath = p;
         }
     }
 
@@ -90,9 +70,6 @@ public class TentacleAi : MonoBehaviour
             reachedEndOfPath = false;
         }
 
-        
-        //DrawTentacle();
-        
         var direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
         var force = direction * speed * Time.deltaTime;
         rb.AddForce(force);
@@ -105,17 +82,4 @@ public class TentacleAi : MonoBehaviour
             currentWaypoint++;
         }
     }
-
-    /*
-    private void DrawTentacle()
-    {
-        if (bodyToTentaclePath == null) return;
-        
-        lineRenderer.positionCount = bodyToTentaclePath.path.Count;
-        for (var i = 0; i < lineRenderer.positionCount; i++)
-        {
-            lineRenderer.SetPosition(i, (Vector3)bodyToTentaclePath.path[i].position);
-        }
-    }*/
-    
 }

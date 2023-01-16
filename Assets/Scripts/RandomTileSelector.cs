@@ -45,14 +45,14 @@ public class RandomTileSelector : MonoBehaviour
         return nextWaypoint;
     }
 
-    public Vector3 ScanNearTarget(Vector3 searchLocation, Vector3 target, int searchRadius = 5, int maxTiles = 5)
+    public Vector3 ScanNearTarget(Vector3 searchLocation, Vector3 target, int searchRadius = 15, int maxTiles = 5)
     {
         var closestTile = 100f;
         var foundTiles = new List<Vector3Int>();
 
         Vector3Int searchLocationCell = tilemap.WorldToCell(searchLocation);
 
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 15; i++)
         {
             var randomX = Random.Range(searchLocationCell.x - searchRadius, searchLocationCell.x + searchRadius);
             var randomY = Random.Range(searchLocationCell.y - searchRadius, searchLocationCell.y + searchRadius);
@@ -95,7 +95,7 @@ public class RandomTileSelector : MonoBehaviour
         foreach (var tile in foundTiles)
         {
             var distanceToTarget = Vector3.Distance(tile, target);
-            if (distanceToTarget < closestTileDistance)
+            if (distanceToTarget < closestTile)
                 currentWaypoint = tilemap.CellToWorld(tile);
         }
 
